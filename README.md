@@ -1,6 +1,6 @@
 This repository contains two programs: "server.c" and "client.c".
 
-Note: You can use the makefile to comiple both C files
+Note: You can use the makefile to comiple both C files. You need to install the libjson-c-dev header
 
 ## Dependencies
 
@@ -41,10 +41,8 @@ To compile and run the program, use the following commands:
 
 ```
 gcc -pthread -o client client.c
-./client localhost
+./client
 
 ```
-
-Note: The client must be run with the IP address of the server as an argument.
 
 Both programs use the "frame.c" library, which contains the frame structure definitions used in communication between the server and client. The library is included in the compile commands for both programs.
