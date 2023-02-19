@@ -34,18 +34,6 @@ int main(int argc, char *argv[])
 
    clietnFrame.preamb = PREAMB;
 
-   /*Missing the IP address*/
-   if (argc != 2) {
-      if(argv[1] == NULL){
-       printf("Utilice: %s  <host>\n",argv[0]);
-      }
-      exit(1);
-   }
-
-   if ((he=gethostbyname(argv[1]))==NULL){
-      printf("gethostbyname() error\n");
-      exit(-1);
-   }
 
    if ((fd = socket(AF_INET, SOCK_STREAM, 0))==-1){
       printf("socket() error\n");
@@ -54,7 +42,7 @@ int main(int argc, char *argv[])
 
    server.sin_family = AF_INET;
    server.sin_port = htons(PORT);
-   server.sin_addr = *((struct in_addr *)he->h_addr);
+   server.sin_addr.s_addr = inet_addr("192.168.164.161");
    bzero(&(server.sin_zero),8);
 
    if(connect(fd, (struct sockaddr *)&server,  sizeof(struct sockaddr))==-1){
