@@ -5,6 +5,7 @@
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
+#include <arpa/inet.h>
 #include <netdb.h>
 #include <string.h>
 #include <pthread.h>
@@ -22,9 +23,6 @@ pthread_mutex_t lock;
 int main(int argc, char *argv[])
 {
    int fd, numbytes;
-
-   /*IP addres used (localhost)*/
-   struct hostent *he;
 
    struct sockaddr_in server;
 
