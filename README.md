@@ -1,5 +1,7 @@
 This repository contains two programs: "server.c" and "client.c".
 
+Note: You can use the makefile to comiple both C files
+
 ## Dependencies
 
 This program has the following dependencies:
