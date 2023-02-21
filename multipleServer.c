@@ -24,6 +24,22 @@ int accele_data[3];
 int magne_data[3];
 int gyro_data[3];
 
+struct json_object *parsed_json;
+struct json_object *acceletomer_json;
+struct json_object *magnetometer_json;;
+struct json_object *gyroscope_json;
+
+struct json_object *acceletomer;
+struct json_object *magnetometer;
+struct json_object *gyroscope;
+
+size_t n_acceletomers;
+size_t n_magnets;
+size_t n_gyroscope;
+
+ FILE *fp;
+char bufferJson[1024];
+
 /*Declaring the function prototype*/
 void *handle_client(void *socket_desc);
 
@@ -70,6 +86,30 @@ int main(int argc, char **argv) {
       }
 
       printf("Connection from %s received\n", inet_ntoa(client_addr.sin_addr));
+
+      fp = fopen("data.json","r");
+	      fread(bufferJson, 1024, 1, fp);
+	      fclose(fp);
+
+	      parsed_json = json_tokener_parse(bufferJson);
+         json_object_object_get_ex(parsed_json, "accelerometer", &acceletomer_json);
+         json_object_object_get_ex(parsed_json, "magnetometer", &magnetometer_json);
+         json_object_object_get_ex(parsed_json, "gyroscope", &gyroscope_json);
+
+
+         n_acceletomers = json_object_array_length(acceletomer_json);
+         n_magnets = json_object_array_length(magnetometer_json);
+         n_gyroscope = json_object_array_length(gyroscope_json);
+
+      for(int i = 0; i < n_acceletomers; i++){
+         acceletomer = json_object_array_get_idx(acceletomer_json, i);
+         magnetometer = json_object_array_get_idx(magnetometer_json, i);
+         gyroscope = json_object_array_get_idx(gyroscope_json, i);
+
+         accele_data[i] = json_object_get_int(acceletomer);
+         magne_data[i] = json_object_get_int(magnetometer);
+         gyro_data[i] = json_object_get_int(gyroscope);
+      }
 
       /*A thread is created with the ID connection*/
       if(pthread_create(&threads[newfd], NULL, handle_client, &newfd) < 0) {
