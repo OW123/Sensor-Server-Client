@@ -1,11 +1,11 @@
 CC = gcc
 CFLAGS = -g -Wall -Werror
-HEADERS = -pthread -ljson-c
+HEADERS = -pthread
 
 all: multipleServer client
 
 multipleServer: multipleServer.c
-	$(CC) $(CFLAGS) $(HEADERS) -o multipleServer multipleServer.c
+	$(CC) $(CFLAGS) $(HEADERS) multipleServer.c -o multipleServer -ljson-c
 
 client: client.c
 	$(CC) $(CFLAGS) $(HEADERS) -o client client.c
